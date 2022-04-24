@@ -9,11 +9,9 @@
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Company>$(Authors)</Company>
 		<Authors>radj307</Authors>
-		<Description>
-			(.NET Core 6)
-			Component that emulates a simple button that can be used to add functionality to Form CancelButton/AcceptButton/HelpButton properties.
-			Can be used entirely from the designer, or programmatically.
-		</Description>
+		<Description>(.NET Core 6)
+Component that emulates a simple button that can be used to add functionality to Form CancelButton/AcceptButton/HelpButton properties.
+Can be used entirely from the designer, or programmatically.</Description>
 		<Copyright>GPLv3</Copyright>
 		<PackageProjectUrl>https://github.com/radj307/VirtualButton</PackageProjectUrl>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
