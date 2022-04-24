@@ -7,7 +7,10 @@
 ### Installation
 #### A) Nuget
 
- 1. Install the nuget package for your project or solution.
+ 1. If you're using Visual Studio, right-click on your project or solution & select _Manage Nuget Packages_.
+    ![image](https://user-images.githubusercontent.com/1927798/164995108-0be2b831-5be5-4e48-8184-46fb5149c54a.png)
+ 2. Switch to the _Browse_ tab & search for `VirtualButton`, then click the install icon.
+    ![image](https://user-images.githubusercontent.com/1927798/164995054-d7657482-1371-4a1c-9850-9d8a0d032ca5.png)  
 
 #### B) From Source
 
