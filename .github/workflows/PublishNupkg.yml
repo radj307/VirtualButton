@@ -11,6 +11,9 @@ env:
 jobs:
   build:
     runs-on: windows-latest
+    env:
+      DOTNET_NOLOGO:                true
+      DOTNET_CLI_TELEMETRY_OPTOUT:  true
 
     steps:
       - uses: actions/checkout@v3
