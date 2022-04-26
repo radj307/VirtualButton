@@ -34,7 +34,7 @@ Can be used entirely from the designer, or programmatically.</Description>
 	</ItemGroup>
 
 	<ItemGroup>
-		<Compile Update="VirtualButton.cs">
+		<Compile Update="VButton.cs">
 			<SubType>Component</SubType>
 		</Compile>
 	</ItemGroup>

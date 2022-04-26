@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace VolumeControl.Core.Controls
+namespace VirtualButton
 {
     /// <summary>
     /// Virtual Button Click Event.
@@ -16,13 +16,13 @@ namespace VolumeControl.Core.Controls
     [EditorBrowsable(EditorBrowsableState.Always)]
     [Bindable(true)]
     [Browsable(true)]
-    public partial class VirtualButton : Component, IButtonControl
+    public partial class VButton : Component, IButtonControl
     {
         #region Constructors
         /// <summary>
         /// Default Constructor.
         /// </summary>
-        public VirtualButton()
+        public VButton()
         {
             InitializeComponent();
         }
@@ -30,7 +30,7 @@ namespace VolumeControl.Core.Controls
         /// Constructor that adds this component to a container.
         /// </summary>
         /// <param name="container">The container to add this component to.</param>
-        public VirtualButton(IContainer container)
+        public VButton(IContainer container)
         {
             container.Add(this);
 
@@ -40,7 +40,7 @@ namespace VolumeControl.Core.Controls
         /// Constructor that accepts an event handler.
         /// </summary>
         /// <param name="clickHandler">An event handler to call whenever the button is 'clicked'</param>
-        public VirtualButton(VirtualClickEventHandler clickHandler)
+        public VButton(VirtualClickEventHandler clickHandler)
         {
             InitializeComponent();
 

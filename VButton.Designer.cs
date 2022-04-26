@@ -1,6 +1,6 @@
-﻿namespace VolumeControl.Core.Controls
+﻿namespace VirtualButton
 {
-    partial class VirtualButton
+    partial class VButton
     {
         /// <summary>
         /// Required designer variable.
