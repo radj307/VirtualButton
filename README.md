@@ -21,6 +21,19 @@
 ### Usage
 *This assumes you already have a form or control, and know how to create them.*
 
+In order for the virtual button's `Click` events to fire correctly, you must assign *(or reassign)* `Form.(...)Button` programmatically outside of the designer at least once.
+```cs
+public partial class Form1 : Form
+{
+  public Form1()
+  {
+    InitializeComponent();
+    
+    CancelButton = virtualButton1; //< this has to happen before Click events can fire. (thank microsoft)
+  }
+}
+```
+
 #### Designer
 
  1. If the installation was successful, you will have a `VirtualButton` item in the designer toolbox:  
