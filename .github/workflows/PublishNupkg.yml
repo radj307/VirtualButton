@@ -1,9 +1,10 @@
 name: Publish Nuget Package
 
 on:
-  push:
-    tags: [ '*.*.*' ]
-  workflow_dispatch:
+  workflow_run:
+    workflows: [Update Version]
+    types:
+      - completed
   
 env:
   BUILD_CONFIGURATION:  'Release'
@@ -45,7 +46,7 @@ jobs:
         run:  |
               $dir="${{ github.workspace }}/bin/${{ env.BUILD_CONFIGURATION }}"
               $file=[System.IO.Path]::GetRelativePath($dir, $($(Get-ChildItem -Path "$dir" -File) -like '*.nupkg'))
-              dotnet nuget push "$file" --api-key '${{ secrets.GHP_PAT }}' --source "github"
+              dotnet nuget push "$file" --api-key '${{ secrets.GHP_PAT }}' --source 'https://github.com/radj307/VirtualButton'
           
       - name: Upload Package to nuget.org
         uses: tedd/publish-nuget-neo@v1.0.2
