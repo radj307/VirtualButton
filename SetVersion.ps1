@@ -1,6 +1,4 @@
-$SCRIPTVERSION = "1" # The version number of this script file
-
-#Set-Location -Path '..'
+$SCRIPTVERSION = "[VirtualButton@2]" # The version number of this script file
 
 Write-Host "Running SetVersion.ps1 $SCRIPTVERSION" # LOG
 
@@ -22,7 +20,7 @@ $global:GIT_TAG_RAW -cmatch '(?<MAJOR>\d+?)\.(?<MINOR>\d+?)\.(?<PATCH>\d+?)(?<EX
 $global:TAG = $Matches.MAJOR + '.' + $Matches.MINOR + '.' + $Matches.PATCH
 
 $EXTRA = $Matches.EXTRA
-if ($EXTRA)
+if ( $EXTRA )
 {
     if ($EXTRA -like "*pre*")
     {
@@ -57,10 +55,8 @@ function SetVersion
     [xml]$CONTENT = Get-Content -Path $file
 
     $oldversion = $CONTENT.Project.PropertyGroup.Version
-    $oldextversion = $CONTENT.Project.PropertyGroup.ExtendedVersion
-    $oldtype = $CONTENT.Project.PropertyGroup.ReleaseType
 
-    if ($oldversion -eq $global:TAG -and $oldextversion -eq $global:GIT_TAG_RAW -and $oldtype -eq $global:TYPE)
+    if ($oldversion -eq $global:TAG)
     {
         "  No changes, skipping."
         return
@@ -70,8 +66,6 @@ function SetVersion
     "  Incoming file version:  '$global:TAG'`t|   '$global:GIT_TAG_RAW'"
 
     $CONTENT.Project.PropertyGroup.Version = "$global:TAG"
-    $CONTENT.Project.PropertyGroup.ExtendedVersion = "$global:GIT_TAG_RAW"
-    $CONTENT.Project.PropertyGroup.ReleaseType = "$global:TYPE"
     $CONTENT.Save("$file")
 }
 
