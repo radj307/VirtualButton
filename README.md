@@ -33,8 +33,9 @@ public partial class Form1 : Form
   }
 }
 ```
+For more detail on implementations, see below.
 
-#### Designer
+#### Designer Usage
 
  1. If the installation was successful, you will have a `VirtualButton` item in the designer toolbox:  
     ![image](https://user-images.githubusercontent.com/1927798/164983021-a89296ca-31ad-4080-af3b-d7c9aaad1637.png)
@@ -50,7 +51,7 @@ public partial class Form1 : Form
 ![image](https://user-images.githubusercontent.com/1927798/164983539-d566ced2-9b96-4796-9cc9-63cba59b2202.png)
 
 
-#### Programmatic
+#### Programmatic Usage
 ```cs
 public class Form1 : Form
 {
