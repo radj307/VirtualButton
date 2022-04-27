@@ -1,35 +1,48 @@
-name: 'Update Version'
+name: Publish Nuget Package
 
 on:
-  push:
-    tags: '[0-9]+.[0-9]+.[0-9]+-?**'
-  workflow_dispatch:
+  workflow_run:
+    workflows: [Update Version]
+    types:
+      - completed
+
+defaults:
+  run:
+    shell: |
+           pwsh -noninteractive -command "try {{ $ErrorActionPreference='Stop'; . '{0}' }} catch {{ Write-Error ""FAILED: $_""; throw; }} if ((Test-Path -LiteralPath variable:\LASTEXITCODE)) {{ exit $LASTEXITCODE }}"
+env:
+  BUILD_CONFIGURATION:  'Release'
 
 jobs:
-  # This job is required because C# is assholes and dotnet publish refuses to use the version number set by the SetVersion.ps1 script.
-  update-version-number:
-    runs-on:  windows-2022
-    
+  build:
+    runs-on: windows-latest
+    env:
+      DOTNET_NOLOGO:                true
+      DOTNET_CLI_TELEMETRY_OPTOUT:  true
+
     steps:
       - uses: actions/checkout@v3
+      
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v2
         with:
-          fetch-depth:  0
-        
-      - name:   Run SetVersion.ps1
-        run:    |
-                cd ${{github.workspace}}
-                .\SetVersion.ps1
-        shell:  |
-                pwsh -noninteractive -command "try {{ $ErrorActionPreference='Stop'; . '{0}' }} catch {{ Write-Error ""FAILED: $_""; throw; }} if ((Test-Path -LiteralPath variable:\LASTEXITCODE)) {{ exit $LASTEXITCODE }}"
-        
-      - name:   Fetch History
-        run:    git fetch
+          dotnet-version: 6.x.x
 
-      - name:   Push Changes
-        run:    |
-                cd ${{github.workspace}}
-                git config user.name github-actions
-                git config user.email github-actions@github.com
-                git add -A
-                git commit -m "Update .csproj Version Numbers"
-                git push origin
+      - name: Build
+        run:  |
+              dotnet build -c ${{ env.BUILD_CONFIGURATION }}
+              
+      - name: Pack
+        run:  |
+              dotnet pack -c ${{ env.BUILD_CONFIGURATION }}
+              
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: nupkg
+          path: '${{ github.workspace }}/bin/${{ env.BUILD_CONFIGURATION }}/*.nupkg'
+    
+      - name: Upload Package to nuget.org
+        uses: tedd/publish-nuget-neo@v1.0.2
+        with:
+          NUGET_KEY:  '${{ secrets.NUGET_API_KEY }}'

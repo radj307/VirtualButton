@@ -5,7 +5,11 @@ on:
     workflows: [Update Version]
     types:
       - completed
-  
+
+defaults:
+  run:
+    shell: |
+           pwsh -noninteractive -command "try {{ $ErrorActionPreference='Stop'; . '{0}' }} catch {{ Write-Error ""FAILED: $_""; throw; }} if ((Test-Path -LiteralPath variable:\LASTEXITCODE)) {{ exit $LASTEXITCODE }}"
 env:
   BUILD_CONFIGURATION:  'Release'
 
@@ -24,10 +28,6 @@ jobs:
         with:
           dotnet-version: 6.x.x
 
-      - name: Authenticate with Github Packages
-        run:  |
-              dotnet nuget add source --username radj307 --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name VirtualButton "https://nuget.pkg.github.com/radj307/index.json"
-              
       - name: Build
         run:  |
               dotnet build -c ${{ env.BUILD_CONFIGURATION }}
@@ -41,15 +41,8 @@ jobs:
         with:
           name: nupkg
           path: '${{ github.workspace }}/bin/${{ env.BUILD_CONFIGURATION }}/*.nupkg'
-
-      - name: Publish Package to Github Packages
-        run:  |
-              $dir="${{ github.workspace }}/bin/${{ env.BUILD_CONFIGURATION }}"
-              $file=[System.IO.Path]::GetRelativePath($dir, $($(Get-ChildItem -Path "$dir" -File) -like '*.nupkg'))
-              dotnet nuget push "$file" --api-key '${{ secrets.GHP_PAT }}' --source 'https://github.com/radj307/VirtualButton'
-          
+    
       - name: Upload Package to nuget.org
         uses: tedd/publish-nuget-neo@v1.0.2
         with:
           NUGET_KEY:  '${{ secrets.NUGET_API_KEY }}'
-          INCLUDE_SYMBOLS: true
