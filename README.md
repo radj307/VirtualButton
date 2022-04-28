@@ -1,72 +1,65 @@
-# VirtualButton
+<br/><p align="center"><img alt="Virtual Button" src="https://i.imgur.com/cDHvGW9.png"/><br/><b>▼ NuGet ▼</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>▼ Github ▼</b><br/>
+<a href="https://www.nuget.org/packages/VirtualButton"><img alt="Nuget" src="https://img.shields.io/nuget/dt/VirtualButton?color=7B4CB5&label=Downloads&labelColor=4C277A&logo=nuget&logoColor=ECECEC&style=for-the-badge"/></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="https://github.com/radj307/VirtualButton"><img alt="GitHub tag (latest by date)" src="https://img.shields.io/github/v/tag/radj307/VirtualButton?color=4C277A&label=Version&labelColor=7B4CB5&logo=github&logoColor=ECECEC&style=for-the-badge"/></a>
+</p>
 
-***This was made for .NET Core 6***, but doesn't rely on anything specific to it - feel free to build it for .NET Framework or other .NET Core versions as needed.
+***
 
-## Getting Started
+<p align="center"><b>Lightweight WinForms component that makes implementing handlers for the built-in form buttons a breeze!</b><br/>Of course, you can use it for whatever you want to - it is compatible with anything that accepts <code>IButtonControl</code> interfaces.</p>
 
-### Installation
-#### A) Nuget
+# Installation
+*Visual Studio*
+ 
+ 1. Right-Click on a `.csproj` or `.sln` file in the solution explorer, then click the ![***Manage NuGet Packages...***](https://user-images.githubusercontent.com/1927798/164995108-0be2b831-5be5-4e48-8184-46fb5149c54a.png) button.  
+      
+ 2. Switch to the ***Browse*** tab and search for '__Virtual Button__'
 
- 1. If you're using Visual Studio, right-click on your project or solution & select _Manage Nuget Packages_.
-    ![image](https://user-images.githubusercontent.com/1927798/164995108-0be2b831-5be5-4e48-8184-46fb5149c54a.png)
- 2. Switch to the _Browse_ tab & search for `VirtualButton`, then click the install icon.
-    ![image](https://user-images.githubusercontent.com/1927798/164995054-d7657482-1371-4a1c-9850-9d8a0d032ca5.png)  
+ 3. Click on the ***Install*** button next to the package description:  
+    ![](https://i.imgur.com/8TkTbup.png)  
+    The code is open-sourced under the [GPLv3](https://github.com/radj307/VirtualButton/blob/main/LICENSE) license.
 
-#### B) From Source
+# Usage
 
- 1. Clone the repository to a location of your choice *(for best results, use a git submodule)*, and add it to your solution.
- 2. Add a project reference in the project you want to use the virtual button in:  
-    ![Adding a Project Reference](https://user-images.githubusercontent.com/1927798/164982597-daf4e9ec-0268-4a22-b85a-af4fb755610f.png)
+You can add virtual buttons using the designer, or entirely programmatically.  
+`VButton` appears at the bottom alongside other components, such as `NotifyIcon`, `Timer`, `BindingSource`, etc.
 
-### Usage
-*This assumes you already have a form or control, and know how to create them.*
+## Designer
 
-In order for the virtual button's `Click` events to fire correctly, you must assign *(or reassign)* `Form.(...)Button` programmatically outside of the designer at least once.
+1. Once you have the NuGet package installed, open the designer toolbox *(You may have to recompile the project for it to appear.)* and add the `VButton` component somewhere.  
+2. In the properties window, create a handler for the `Click` event, and put whatever code you want to execute when the associated key is pressed in the handler.
+3. Re-assign the button property at least once before attempting to use it.  
+    Common places to do this are the form's constructor or `Form.Load` event, for example:
 ```cs
 public partial class Form1 : Form
 {
-  public Form1()
-  {
-    InitializeComponent();
-    
-    CancelButton = virtualButton1; //< this has to happen before Click events can fire. (thank microsoft)
-  }
+    public Form1()
+    {
+        InitializeComponent();
+		
+        // Even though we set this in the designer, we have
+        //  to set it again manually for it to work correctly:
+        this.CancelButton = vButton1;
+    }
 }
 ```
-For more detail on implementations, see below.
 
-#### Designer Usage
+## Programmatic
 
- 1. If the installation was successful, you will have a `VirtualButton` item in the designer toolbox:  
-    *(as of v2.0.0+ this is now `VirtualButton.VButton`, which appears as `VButton`)*  
-    ![image](https://user-images.githubusercontent.com/1927798/164983021-a89296ca-31ad-4080-af3b-d7c9aaad1637.png)
- 2. Select the `VirtualButton` item, then click somewhere on your form/control. You will now have a new component:  
-    ![image](https://user-images.githubusercontent.com/1927798/164983139-7f07d7e1-34d0-4c92-abd3-dbb3d51f2500.png)
-    
-##### Handling Virtual Click Events
-- Define a handler for the click event by double-clicking in the `Click` dropdown, or by selecting an already-existing function.  
-![image](https://user-images.githubusercontent.com/1927798/164983215-3385cb07-3abf-4693-8191-6cb9ca03b832.png)
-
-##### Setting Built-In Form Buttons
-- Now that you have a `VirtualButton` added to the form/control, you can select it from the `Form` `CancelButton`/`AcceptButton`/`HelpButton` dropdown boxes:  
-![image](https://user-images.githubusercontent.com/1927798/164983539-d566ced2-9b96-4796-9cc9-63cba59b2202.png)
-
-
-#### Programmatic Usage
+You can create VButtons with ad-hoc delegates:
 ```cs
-public class Form1 : Form
+this.CancelButton = new VButton(delegate{
+    // Do something
+});
+```
+
+Or with any event handler compatible with `HandledEventHandler`:
+```cs
+private void HandlerOfHandledEvents(object sender, HandledEventArgs e)
 {
-     public Form1()
-     {
-         InitializeComponent();
-         
-         // Initialize the virtual button:
-         vbCancelButton = new(delegate{ this.Close() });
-         
-         // Assign the virtual button as the form button handler:
-         this.CancelButton = vbCancelButton;
-     }
-     
-     private readonly VirtualButton vbCancelButton;
+    // ...
+}
+
+private void Form1_Load(object sender, EventArgs e)
+{
+    vButton1.Click += HandlerOfHandledEvents!;
 }
 ```
