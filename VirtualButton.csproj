@@ -25,7 +25,7 @@ NOTE: In order for the Click events to fire correctly, you have to (re)assign th
     </AssemblyVersion>
     <Version>2.1.1</Version>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <PackageLicenseExpression>GPL-3.0</PackageLicenseExpression>
+    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
   </PropertyGroup>
   <!-- Fix the .NET 6.0.2 bug (https://github.com/dotnet/winforms/issues/6663): -->
   <ItemGroup>
