@@ -6,6 +6,8 @@
 ###
 
 env:
+  REF:    'main'
+  # ^ Set this to the target ref (branch/tag/commit)
   SCRIPT: '${{github.workspace}}/SetVersion.ps1'
   # ^ Set this to the location of the powershell script to run.
   
@@ -30,6 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
+          ref:  '${{ env.REF }}'
           fetch-depth:  0
         
       - name:   Run SetVersion.ps1
@@ -47,4 +50,5 @@ jobs:
                 git config user.email github-actions@github.com
                 git add -A
                 git commit -m "Update .csproj Version Numbers"
+                git pull
                 git push origin

@@ -38,6 +38,7 @@ For more detail on implementations, see below.
 #### Designer Usage
 
  1. If the installation was successful, you will have a `VirtualButton` item in the designer toolbox:  
+    *(as of v2.0.0+ this is now `VirtualButton.VButton`, which appears as `VButton`)*  
     ![image](https://user-images.githubusercontent.com/1927798/164983021-a89296ca-31ad-4080-af3b-d7c9aaad1637.png)
  2. Select the `VirtualButton` item, then click somewhere on your form/control. You will now have a new component:  
     ![image](https://user-images.githubusercontent.com/1927798/164983139-7f07d7e1-34d0-4c92-abd3-dbb3d51f2500.png)
