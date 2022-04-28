@@ -1,51 +1,58 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <Nullable>enable</Nullable>
-    <UseWindowsForms>true</UseWindowsForms>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <GenerateDocumentationFile>False</GenerateDocumentationFile>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Company>$(Authors)</Company>
-    <Authors>radj307</Authors>
-    <Description>(.NET Core 6)
+	<PropertyGroup>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<GenerateDocumentationFile>False</GenerateDocumentationFile>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Company>$(Authors)</Company>
+		<Authors>radj307</Authors>
+		<Description>(WinForms 6.0.0.0 / .NET Core 6)
 Component that emulates a simple button that can be used to add functionality to Form CancelButton/AcceptButton/HelpButton properties.
-Can be used entirely from the designer, or programmatically.</Description>
-    <Copyright>GPLv3</Copyright>
-    <PackageProjectUrl>https://github.com/radj307/VirtualButton</PackageProjectUrl>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageIcon>Resources/virtualbutton.png</PackageIcon>
-    <RepositoryUrl>https://github.com/radj307/VirtualButton</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageTags>component;button;virtual</PackageTags>
-    <NeutralLanguage>en</NeutralLanguage>
-    <AssemblyVersion>
-    </AssemblyVersion>
-    <Version>2.0.0</Version>
-    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-    <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="NuGet.Build.Tasks.Pack" Version="6.1.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="VButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="Resources/virtualbutton.png">
-      <Pack>True</Pack>
-      <PackagePath>Resources/virtualbutton.png</PackagePath>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="README.md">
-      <Pack>True</Pack>
-      <PackagePath>README.md</PackagePath>
-    </None>
-  </ItemGroup>
+Can be used (almost) entirely from the designer, or programmatically.
+
+NOTE: In order for the Click events to fire correctly, you have to (re)assign the Form's button property at least once; in the constructor, for example.</Description>
+		<Copyright>GPLv3</Copyright>
+		<PackageProjectUrl>https://github.com/radj307/VirtualButton</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageIcon>Resources/virtualbutton.png</PackageIcon>
+		<RepositoryUrl>https://github.com/radj307/VirtualButton</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageTags>component;button;virtual</PackageTags>
+		<NeutralLanguage>en</NeutralLanguage>
+		<AssemblyVersion>
+		</AssemblyVersion>
+		<Version>2.1.0</Version>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+		<PackageLicenseExpression>GPL-3.0</PackageLicenseExpression>
+	</PropertyGroup>
+	
+	<!-- Fix the .NET 6.0.2 bug (https://github.com/dotnet/winforms/issues/6663): -->
+	<ItemGroup>
+		<FrameworkReference Update="Microsoft.WindowsDesktop.App;Microsoft.WindowsDesktop.App.WPF;Microsoft.WindowsDesktop.App.WindowsForms" TargetingPackVersion="6.0.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="NuGet.Build.Tasks.Pack" Version="6.0.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Update="VButton.cs">
+			<SubType>Component</SubType>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="Resources/virtualbutton.png">
+			<Pack>True</Pack>
+			<PackagePath>Resources/virtualbutton.png</PackagePath>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="README.md">
+			<Pack>True</Pack>
+			<PackagePath>README.md</PackagePath>
+		</None>
+	</ItemGroup>
 </Project>
